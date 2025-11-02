@@ -1,28 +1,25 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createBrotliCompress } from "node:zlib";
 import { parseFileAndDest } from "../utils/utils.js";
 
-
-export async function cpHandler(args) {
+export async function compressHandler(args) {
   const { src, destDir } = parseFileAndDest(args);
 
   if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
 
-  const fileName = path.basename(src);
-  const destPath = path.join(destDir, fileName);
+  const destPath = path.join(destDir, path.basename(src) + ".br");
 
   return new Promise((resolve, reject) => {
     const readable = fs.createReadStream(src);
     const writable = fs.createWriteStream(destPath);
+    const brotli = createBrotliCompress();
 
-    readable.pipe(writable);
+    readable.pipe(brotli).pipe(writable);
 
+    writable.on("finish", () => resolve(destPath));
     readable.on("error", reject);
     writable.on("error", reject);
-
-    writable.on("finish", () => {
-       resolve(destPath);
-    });
+    brotli.on("error", reject);
   });
 }
-

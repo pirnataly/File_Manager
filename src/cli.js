@@ -13,6 +13,8 @@ import { mvHandler } from "./files/mv.js";
 import { rmHandler } from "./files/rm.js";
 import { osHandler } from "./os/osHandler.js";
 import { hashHandler } from "./hash/hash.js";
+import { compressHandler } from "./archive/compress.js";
+import { decompressHandler } from "./archive/decompress.js";
 
 
 const readline = createInterface({ input, output });
@@ -68,8 +70,16 @@ export async function cli() {
       }
       case "hash": {
         handle(args, hashHandler);
+        break;
       }
-
+      case "compress":{
+        handle(args, compressHandler);
+        break;
+      }
+      case "decompress":{
+        handle(args, decompressHandler);
+        break;
+      }
     }
   });
 }

@@ -1,6 +1,7 @@
 import { homedir } from "node:os";
 import { parseArgs } from "node:util";
 import { cwd } from "node:process";
+import {existsSync,lstatSync} from "node:fs";
 import fs from "node:fs/promises";
 import * as path from "node:path";
 import { navigate } from "../nwd/navigate.js";
@@ -68,4 +69,26 @@ export function handle(args, callback) {
   } else {
     wrapWithoutArgs(callback);
   }
+}
+
+
+export function parseFileAndDest(args) {
+  const parts = args.trim().split(" ");
+  let src = "";
+  let destDir = "";
+
+  for (let i = parts.length; i > 0; i--) {
+    const possibleSrc = parts.slice(0, i).join(" ");
+    if (existsSync(possibleSrc) && lstatSync(possibleSrc).isFile()) {
+      src = possibleSrc;
+      destDir = parts.slice(i).join(" ").trim();
+      break;
+    }
+  }
+
+  if (!src || !destDir) {
+    throw new Error();
+  }
+
+  return { src, destDir };
 }
