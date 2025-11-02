@@ -36,3 +36,39 @@ export async function goTo(newPath) {
       navigate(newPathToGo);
     }
 }
+
+async function wrapWithArgs(args,fn){
+  const trimmedArgs = args.join(" ").trim();
+  if (!trimmedArgs) {
+    console.log("Invalid input");
+  } else {
+    try{
+      await fn(trimmedArgs)
+    }
+    catch {
+      console.log("Operation failed");
+    } finally {
+      consoleCurrentDir();
+    }
+  }
+}
+
+function wrapWithoutArgs(fn){
+  try{
+    fn();
+  }
+  catch {
+    console.log("Operation failed");
+  } finally {
+    consoleCurrentDir();
+  }
+}
+
+export function handle(args, callback) {
+  if(args){
+   void wrapWithArgs(args, callback);
+    }
+  else {
+    wrapWithoutArgs(callback)
+  }
+}
