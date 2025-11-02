@@ -12,6 +12,7 @@ import { cpHandler } from "./files/cp.js";
 import { mvHandler } from "./files/mv.js";
 import { rmHandler } from "./files/rm.js";
 import { osHandler } from "./os/osHandler.js";
+import { hashHandler } from "./hash/hash.js";
 
 
 const readline = createInterface({ input, output });
@@ -46,24 +47,27 @@ export async function cli() {
         break;
       }
       case "rn": {
-        handle(args,rnHandler);
+        handle(args, rnHandler);
         break;
       }
       case "cp": {
-        handle(args,cpHandler);
+        handle(args, cpHandler);
         break;
       }
       case "mv": {
-        handle(args,mvHandler);
+        handle(args, mvHandler);
         break;
       }
       case "rm": {
-        handle(args,rmHandler);
+        handle(args, rmHandler);
         break;
       }
       case "os": {
-        handle(args,osHandler);
+        handle(args, osHandler);
         break;
+      }
+      case "hash": {
+        handle(args, hashHandler);
       }
 
     }
