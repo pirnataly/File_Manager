@@ -11,6 +11,7 @@ import { rnHandler } from "./files/rn.js";
 import { cpHandler } from "./files/cp.js";
 import { mvHandler } from "./files/mv.js";
 import { rmHandler } from "./files/rm.js";
+import { osHandler } from "./os/osHandler.js";
 
 
 const readline = createInterface({ input, output });
@@ -60,6 +61,11 @@ export async function cli() {
         handle(args,rmHandler);
         break;
       }
+      case "os": {
+        handle(args,osHandler);
+        break;
+      }
+
     }
   });
 }

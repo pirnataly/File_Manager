@@ -25,39 +25,37 @@ export function consoleCurrentDir() {
 }
 
 export async function goTo(newPath) {
-    const newPathToGo = path.isAbsolute(newPath)
-      ? newPath
-      : path.join(cwd(), newPath);
+  const newPathToGo = path.isAbsolute(newPath)
+    ? newPath
+    : path.join(cwd(), newPath);
 
-    const stat = await fs.stat(newPathToGo);
-    if (!stat.isDirectory()) {
-      throw new Error();
-    } else {
-      navigate(newPathToGo);
-    }
-}
-
-async function wrapWithArgs(args,fn){
-  const trimmedArgs = args.join(" ").trim();
-  if (!trimmedArgs) {
-    console.log("Invalid input");
+  const stat = await fs.stat(newPathToGo);
+  if (!stat.isDirectory()) {
+    throw new Error();
   } else {
-    try{
-      await fn(trimmedArgs)
-    }
-    catch {
-      console.log("Operation failed");
-    } finally {
-      consoleCurrentDir();
-    }
+    navigate(newPathToGo);
   }
 }
 
-function wrapWithoutArgs(fn){
-  try{
-    fn();
+async function wrapWithArgs(args, fn) {
+  const trimmedArgs = args.join(" ").trim();
+  try {
+    if (!trimmedArgs) {
+      console.log("Invalid input");
+    } else {
+      await fn(trimmedArgs);
+    }
+  } catch {
+    console.log("Operation failed");
+  } finally {
+    consoleCurrentDir();
   }
-  catch {
+}
+
+function wrapWithoutArgs(fn) {
+  try {
+    fn();
+  } catch {
     console.log("Operation failed");
   } finally {
     consoleCurrentDir();
@@ -65,10 +63,9 @@ function wrapWithoutArgs(fn){
 }
 
 export function handle(args, callback) {
-  if(args){
-   void wrapWithArgs(args, callback);
-    }
-  else {
-    wrapWithoutArgs(callback)
+  if (args) {
+    void wrapWithArgs(args, callback);
+  } else {
+    wrapWithoutArgs(callback);
   }
 }
