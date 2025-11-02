@@ -21,6 +21,7 @@ export async function cpHandler(args) {
     writable.on("error", reject);
 
     writable.on("finish", () => {
+      console.log("Sucessfully cp");
        resolve(destPath);
     });
   });

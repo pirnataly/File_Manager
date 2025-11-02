@@ -12,6 +12,7 @@ export async function rmHandler(args) {
       console.log("Invalid input");
     } else {
       await unlink(filePath);
+      console.log(`Removing ${filePath}`);
     }
   }
 }

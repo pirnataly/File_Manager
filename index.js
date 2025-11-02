@@ -15,6 +15,7 @@ async function app() {
   process.on("exit", () => {
     console.log(`Thank you for using File Manager, ${username}, goodbye!`);
   });
+
 }
 
 try {

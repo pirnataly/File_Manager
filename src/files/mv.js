@@ -23,6 +23,7 @@ export async function mvHandler(args) {
     writable.on("finish", async () => {
       try {
         await unlink(src);
+        console.log("Successfully moved file " + destPath);
         resolve(destPath);
       } catch (err) {
         reject(err);

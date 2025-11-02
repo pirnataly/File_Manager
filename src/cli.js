@@ -80,6 +80,10 @@ export async function cli() {
         handle(args, decompressHandler);
         break;
       }
+      case ".exit":{
+        process.exit(0);
+        break;
+      }
     }
   });
 }

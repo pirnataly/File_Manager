@@ -17,7 +17,11 @@ export async function compressHandler(args) {
 
     readable.pipe(brotli).pipe(writable);
 
-    writable.on("finish", () => resolve(destPath));
+    writable.on("finish", () => {
+      resolve(destPath);
+      console.log("Compressing successfully");
+    });
+
     readable.on("error", reject);
     writable.on("error", reject);
     brotli.on("error", reject);
